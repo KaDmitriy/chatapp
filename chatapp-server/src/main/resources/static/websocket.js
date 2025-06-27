@@ -1,25 +1,65 @@
-let socket = new WebSocket("ws://localhost:8080/wsc");
+const stompClient = new StompJs.Client({
+    brokerURL: 'ws://localhost:8080/gs-guide-websocket'
+});
 
-socket.onopen = function(e) {
-  alert("[open] Соединение установлено");
-  alert("Отправляем данные на сервер");
-  socket.send("{\"name\": \"Fred\" }");
+stompClient.onConnect = (frame) => {
+    setConnected(true);
+    console.log('Connected: ' + frame);
+	$("#log").append("<p>INFO: " + frame + "</p>");
+    stompClient.subscribe('/topic/hello', (greeting) => {
+        showGreeting(JSON.parse(greeting.body).content);
+    });
 };
 
-socket.onmessage = function(event) {
-  alert(`[message] Данные получены с сервера: ${event.data}`);
+stompClient.onWebSocketError = (error) => {
+    console.error('Error with websocket', error);
+	$("#log").append("<p>Error: " + 'Error with websocket' + error + "</p>");
 };
 
-socket.onclose = function(event) {
-  if (event.wasClean) {
-    alert(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
-  } else {
-    // например, сервер убил процесс или сеть недоступна
-    // обычно в этом случае event.code 1006
-    alert('[close] Соединение прервано');
-  }
+stompClient.onStompError = (frame) => {
+    console.error('Broker reported error: ' + frame.headers['message']);
+    console.error('Additional details: ' + frame.body);
+	$("#log").append("<p>Error: " + 'Broker reported error: ' + frame.headers['message'] + "</p>");
+	$("#log").append("<p>Error: " + 'Additional details: ' + frame.body + "</p>");
 };
 
-socket.onerror = function(error) {
-  alert(`[error]`);
-};
+function setConnected(connected) {
+    $("#connect").prop("disabled", connected);
+    $("#disconnect").prop("disabled", !connected);
+    if (connected) {
+        $("#conversation").show();
+    }
+    else {
+        $("#conversation").hide();
+    }
+    $("#greetings").html("");
+}
+
+function connect() {
+    stompClient.activate();
+}
+
+function disconnect() {
+    stompClient.deactivate();
+    setConnected(false);
+    console.log("Disconnected");
+	$("#log").append("<p>INFO: Disconnected</p>");
+}
+
+function sendName() {
+    stompClient.publish({
+        destination: "/app/hello",
+        body: JSON.stringify({'name': $("#name").val()})
+    });
+}
+
+function showGreeting(message) {
+    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+}
+
+$(function () {
+    $("form").on('submit', (e) => e.preventDefault());
+    $( "#connect" ).click(() => connect());
+    $( "#disconnect" ).click(() => disconnect());
+    $( "#send" ).click(() => sendName());
+});
