@@ -6,7 +6,7 @@ stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
 	$("#log").append("<p>INFO: " + frame + "</p>");
-    stompClient.subscribe('/topic/hello', (greeting) => {
+    stompClient.subscribe('/topic/greetings', (greeting) => {
         showGreeting(JSON.parse(greeting.body).content);
     });
 };
@@ -53,6 +53,13 @@ function sendName() {
     });
 }
 
+function sendMessage(userId) {
+    stompClient.publish({
+        destination: "/user/"+userId+"/hello",
+        body: JSON.stringify({'name': $("#name").val()})
+    });
+}
+
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
 }
@@ -62,4 +69,22 @@ $(function () {
     $( "#connect" ).click(() => connect());
     $( "#disconnect" ).click(() => disconnect());
     $( "#send" ).click(() => sendName());
+
+
+    $('#js-button').click(function(){
+        var userFrom = $('#userfrom').val();
+        var userTo = $('#userto').val();
+        alert('from: ' + userFrom + " ; to:"+userTo);
+
+        stompClient.subscribe('/user/'+userFrom+'/greetings', (greeting) => {
+        showGreeting(JSON.parse(greeting.body).content);
+
+        sendMessage(userTo);
+    });
+
+    });
 });
+
+
+
+

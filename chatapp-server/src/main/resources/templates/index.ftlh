@@ -12,6 +12,23 @@ https://javarush.com/quests/lectures/questspring.level04.lecture44
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
     enabled. Please enable
     Javascript and reload this page!</h2></noscript>
+    
+<div style="margin:15px;">
+User From
+<select name="selectfrom" id="userfrom">
+  <option value="1">User1</option>
+  <option value="2">User2</option>
+  <option value="3">User3</option>
+</select>
+
+User To
+<select name="selectto" id="userto">
+  <option value="1">User1</option>
+  <option value="2">User2</option>
+  <option value="3">User3</option>
+</select>
+<button id="js-button" class="btn btn-outline-primary">Send</button>
+</div>
 <div id="main-content" class="container">
     <div class="row">
         <div class="col-md-6">
