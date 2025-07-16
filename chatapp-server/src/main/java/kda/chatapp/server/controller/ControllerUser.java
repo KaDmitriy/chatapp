@@ -24,9 +24,21 @@ public class ControllerUser {
 	@GetMapping("/user/chat")
 	public ChatModel getChat(int fromUserID, int toUserID) {
 		ChatModel cm = new ChatModel();
-		cm.setUid(UUID.fromString("8ee290eb-6fa9-40c3-bc87-d196ac028b31"));
-		cm.setFromUSer(new User(fromUserID, "user"+fromUserID));
-		cm.setToUSer(new User(toUserID, "user"+toUserID));
+		if((fromUserID==1&&toUserID==2) || (fromUserID==2&&toUserID==1) ){
+			cm.setUid(UUID.fromString("1ee290eb-6fa9-40c3-bc87-d196ac028b31"));
+			cm.setFromUSer(new User(fromUserID, "user"+fromUserID));
+			cm.setToUSer(new User(toUserID, "user"+toUserID));
+		}
+		if((fromUserID==1&&toUserID==3) || (fromUserID==3&&toUserID==1) ){
+			cm.setUid(UUID.fromString("2ee290eb-6fa9-40c3-bc87-d196ac028b31"));
+			cm.setFromUSer(new User(fromUserID, "user"+fromUserID));
+			cm.setToUSer(new User(toUserID, "user"+toUserID));
+		}
+		if((fromUserID==3&&toUserID==2) || (fromUserID==2&&toUserID==3) ){
+			cm.setUid(UUID.fromString("3ee290eb-6fa9-40c3-bc87-d196ac028b31"));
+			cm.setFromUSer(new User(fromUserID, "user"+fromUserID));
+			cm.setToUSer(new User(toUserID, "user"+toUserID));
+		}
 		return cm;
 	}
 
