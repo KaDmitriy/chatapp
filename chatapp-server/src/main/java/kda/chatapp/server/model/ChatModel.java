@@ -6,6 +6,7 @@ public class ChatModel {
     private User fromUSer;
     private User toUSer;
     private UUID uid;
+    private String name;
 
     public User getFromUSer() {
         return fromUSer;
@@ -30,4 +31,13 @@ public class ChatModel {
     public void setUid(UUID uid) {
         this.uid = uid;
     }
+
+    public String getName() {
+        return fromUSer.getName()+" - "+ toUSer.getName();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

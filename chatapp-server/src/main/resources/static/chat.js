@@ -1,3 +1,19 @@
+function documentready(){
+    $.ajax({
+      method: "GET",
+      url: "/user/list"
+    })
+    .done(function( data ) {
+        //alert( "Data Saved: " + data[0].name );
+
+        $.each(data, function(index, value) {
+                console.log("Item at index " + index + ": " + value.name);
+                 $('#userto').append('<option value="value.id">'+value.name+'</option>');
+            });
+
+      });
+}
+
 const stompClient = new StompJs.Client({
     brokerURL: 'ws://localhost:8080/gs-guide-websocket'
 });

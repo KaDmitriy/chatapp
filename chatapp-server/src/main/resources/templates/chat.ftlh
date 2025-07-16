@@ -6,6 +6,11 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="stomp.umd.min.js"></script>
     <script src="chat.js"></script>
+    <script>
+        $( document ).ready(function() {
+            documentready();
+        });
+    </script>
 </head>
 <body>
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
@@ -18,11 +23,7 @@
 <div id="main-content" class="container">
 
     User To
-    <select name="selectto" id="userto">
-        <option value="1">User1</option>
-        <option value="2">User2</option>
-        <option value="3">User3</option>
-    </select>
+    <select name="selectto" id="userto"></select>
     <div class="row">
         <div class="col-md-6">
             <form class="form-inline">
