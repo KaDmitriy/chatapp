@@ -1,17 +1,25 @@
+/**
+* Настройки при загрузки страницы
+*/
 function documentready(){
+
+    /**
+    * Формирование списка пользователей
+    */
     $.ajax({
       method: "GET",
       url: "/user/list"
     })
     .done(function( data ) {
         //alert( "Data Saved: " + data[0].name );
-
+        $('#userto').append('<option value="0">Выберете пользователя</option>');
+        $('#userfrom').append('<option value="0">Выберете пользователя</option>');
         $.each(data, function(index, value) {
-                console.log("Item at index " + index + ": " + value.name);
-                 $('#userto').append('<option value="value.id">'+value.name+'</option>');
-            });
-
-      });
+            //console.log("Item at index " + index + ": " + value.name);
+            $('#userto').append('<option value="'+value.id+'">'+value.name+'</option>');
+            $('#userfrom').append('<option value="'+value.id+'">'+value.name+'</option>');
+        });
+    });
 }
 
 const stompClient = new StompJs.Client({
@@ -87,19 +95,40 @@ $(function () {
     $( "#send" ).click(() => sendName());
 
 
-    $('#js-button').click(function(){
+    $('#userto').change(function(){
         var userFrom = $('#userfrom').val();
         var userTo = $('#userto').val();
-        alert('from: ' + userFrom + " ; to:"+userTo);
 
-        stompClient.subscribe('/user/'+userFrom+'/greetings', (greeting) => {
-        showGreeting(JSON.parse(greeting.body).content);
-
-        sendMessage(userTo);
-    });
-
+        $.ajax({
+              method: "GET",
+              url: "/user/chat",
+              data: {
+                fromUserID : userFrom,
+                toUserID : userTo
+              }
+        })
+        .done(function( data ) {
+            registrationChat(data);
+        });
     });
 });
+
+
+/**
+* Регистрация чата
+* curChat : {uid: "UUID", name: "String", fromUSer: { id: Int, name: "String" }, toUSer: { id: Int, name: "String" }}
+*/
+function registrationChat(curChat){
+    console.log(curChat);
+
+    //alert('from: ' + userFrom + " ; to:"+userTo);
+    //stompClient.subscribe('/user/'+userFrom+'/greetings', (greeting) => {
+    //showGreeting(JSON.parse(greeting.body).content);
+
+    //sendMessage(userTo);
+    //});
+
+}
 
 
 
