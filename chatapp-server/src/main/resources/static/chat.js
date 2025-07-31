@@ -30,7 +30,7 @@ stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
 	$("#log").append("<p>INFO: " + frame + "</p>");
-    stompClient.subscribe('/topic/greetings', (greeting) => {
+    stompClient.subscribe('/user/topic/to', (greeting) => {
         showGreeting(JSON.parse(greeting.body).content);
     });
 };
@@ -72,8 +72,8 @@ function disconnect() {
 
 function sendName() {
     stompClient.publish({
-        destination: "/app/hello",
-        body: JSON.stringify({'name': $("#name").val()})
+        destination: "/chat/send",
+        body: JSON.stringify({'text': $("#name").val(), 'chatUID':'000d5319-06f6-48f1-a3bc-44506e957926'})
     });
 }
 

@@ -1,5 +1,6 @@
 package kda.chatapp.server.controller;
 
+import kda.chatapp.server.dto.Message;
 import kda.chatapp.server.model.Greeting;
 import kda.chatapp.server.model.HelloMessage;
 import org.slf4j.Logger;
@@ -18,11 +19,11 @@ public class Chat {
 
     private final Logger log = LoggerFactory.getLogger(Chat.class);
 
-    @MessageMapping("/chat/{uid}")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message, @DestinationVariable UUID uid) throws Exception {
-        log.info("hello");
+    @MessageMapping("/send")
+    @SendToUser("/topic/to")
+    public Greeting greeting(Message message) throws Exception {
+        log.info("hello Chat. Message text:"+message.getText()+" chatUID:"+message.getChatUID().toString());
         Thread.sleep(1000); // simulated delay
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getText()) + "!");
     }
 }
