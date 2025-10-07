@@ -14,9 +14,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -41,20 +39,11 @@ public class WebSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-
         List<UserDetails> users = userServise.getListUSer().stream().map(u -> User.withDefaultPasswordEncoder()
                 .username(u.getName())
                 .password(u.getPassword())
                 .roles(u.getRole())
                 .build()).toList();
-        /*
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
-        */
         return new InMemoryUserDetailsManager(users);
     }
 
