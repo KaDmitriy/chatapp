@@ -2,14 +2,16 @@
 <html>
 <head>
     <title>Test page</title>
-    <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="stomp.umd.min.js"></script>
-    <script src="chat.js"></script>
+    <link rel="stylesheet" href="/chat/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="/chat/jquery-3.1.1.min.js"></script>
+    <script src="/chat/stomp.umd.min.js"></script>
+    <script src="/chat/chat.js"></script>
     <script>
         $( document ).ready(function() {
             documentready();
         });
+        var USERID=${USERID};
+        var USERNAME="${USERNAME}";
     </script>
 </head>
 <body>
@@ -21,10 +23,8 @@
 
 </div>
 <div id="main-content" class="container">
-    I
-    <select name="selectfrom" id="userfrom"></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    User To
-    <select name="selectto" id="userto"></select>
+    I <b>${USERNAME}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    User To <select name="selectto" id="userto"></select>
     <div class="row">
         <div class="col-md-6">
             <form class="form-inline">

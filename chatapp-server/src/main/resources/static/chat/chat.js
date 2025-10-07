@@ -13,11 +13,11 @@ function documentready(){
     .done(function( data ) {
         //alert( "Data Saved: " + data[0].name );
         $('#userto').append('<option value="0">Выберете пользователя</option>');
-        $('#userfrom').append('<option value="0">Выберете пользователя</option>');
+
         $.each(data, function(index, value) {
             //console.log("Item at index " + index + ": " + value.name);
             $('#userto').append('<option value="'+value.id+'">'+value.name+'</option>');
-            $('#userfrom').append('<option value="'+value.id+'">'+value.name+'</option>');
+
         });
     });
 }
@@ -103,7 +103,7 @@ $(function () {
               method: "GET",
               url: "/user/chat",
               data: {
-                fromUserID : userFrom,
+                fromUserID : USERID,
                 toUserID : userTo
               }
         })

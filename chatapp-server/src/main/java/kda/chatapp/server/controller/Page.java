@@ -1,5 +1,6 @@
 package kda.chatapp.server.controller;
 
+import kda.chatapp.server.model.User;
 import kda.chatapp.server.service.UserServise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +32,10 @@ public class Page {
     }
 
     @GetMapping("/chat")
-    public String getChat() {
+    public String getChat(Model model, Principal principal) {
+        User user = userServise.findByName(principal.getName());
+        model.addAttribute("USERID", user.getId());
+        model.addAttribute("USERNAME", user.getName());
         return "chat";
     }
 
