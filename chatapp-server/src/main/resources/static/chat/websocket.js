@@ -6,9 +6,13 @@ stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
 	$("#log").append("<p>INFO: " + frame + "</p>");
-    stompClient.subscribe('/topic/greetings', (greeting) => {
+    stompClient.subscribe('/user/topic/greetings', (greeting) => {
         showGreeting(JSON.parse(greeting.body).content);
     });
+    stompClient.subscribe('/user/topic/greetings', (greeting) => {
+            showGreeting(JSON.parse(greeting.body).content);
+        });
+
 };
 
 stompClient.onWebSocketError = (error) => {

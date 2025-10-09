@@ -6,6 +6,7 @@ public class User {
 	private String name;
 	private String password;
 	private String role;
+	private String channel;
 	
 	public User(int id, String name, String password, String role) {
 		super();
@@ -13,6 +14,7 @@ public class User {
 		this.name = name;
 		this.password = password;
         this.role = role;
+		this.channel = this.name+"_"+this.id;
     }
 	
 	public int getId() {

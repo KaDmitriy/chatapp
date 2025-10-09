@@ -30,8 +30,23 @@ stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
 	$("#log").append("<p>INFO: " + frame + "</p>");
+
+    var subscribeUser = '/user/'+USERID+'/topic/message';
+    $("#log").append("<p>INFO: subscribeUser: " + subscribeUser + "</p>");
+    stompClient.subscribe(subscribeUser, (message) => {
+        showGreeting(">>> USERID/topic/message >>> "+JSON.parse(message.body).content);
+    });
+
+    stompClient.subscribe('/user/'+USERID+'/topic/to', (greeting) => {
+        showGreeting(">>> /user/USERID/topic/to >>> "+JSON.parse(greeting.body).content);
+    });
+
+    stompClient.subscribe('/topic/to', (greeting) => {
+        showGreeting(">>> /topic/to >>> "+JSON.parse(greeting.body).content);
+    });
+
     stompClient.subscribe('/user/topic/to', (greeting) => {
-        showGreeting(JSON.parse(greeting.body).content);
+        showGreeting(">>> /user/topic/to >>> "+JSON.parse(greeting.body).content);
     });
 };
 
@@ -73,7 +88,7 @@ function disconnect() {
 function sendName() {
     stompClient.publish({
         destination: "/chat/send",
-        body: JSON.stringify({'text': $("#name").val(), 'chatUID':'000d5319-06f6-48f1-a3bc-44506e957926'})
+        body: JSON.stringify({'text': $("#name").val(), 'chatUID':'000d5319-06f6-48f1-a3bc-44506e957926', 'toIDUser':SELECTUSERIDCHAT})
     });
 }
 
@@ -98,7 +113,7 @@ $(function () {
     $('#userto').change(function(){
         var userFrom = $('#userfrom').val();
         var userTo = $('#userto').val();
-
+        SELECTUSERIDCHAT = userTo;
         $.ajax({
               method: "GET",
               url: "/user/chat",

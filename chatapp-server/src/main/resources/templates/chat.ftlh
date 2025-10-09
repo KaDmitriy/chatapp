@@ -12,6 +12,7 @@
         });
         var USERID=${USERID};
         var USERNAME="${USERNAME}";
+        var SELECTUSERIDCHAT=0;
     </script>
 </head>
 <body>
