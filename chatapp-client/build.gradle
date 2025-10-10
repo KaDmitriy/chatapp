@@ -10,12 +10,15 @@ plugins {
     id 'application'
 }
 
+version = '0.0.1'
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
 dependencies {
+
     // Use JUnit Jupiter for testing.
     testImplementation libs.junit.jupiter
 
@@ -34,7 +37,13 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'kda.chatapp.client'
+    mainClass = 'kda.chatapp.client.ChatAppClient'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'kda.chatapp.client.ChatAppClient'
+    }
 }
 
 tasks.named('test') {
