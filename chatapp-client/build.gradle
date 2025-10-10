@@ -19,6 +19,10 @@ repositories {
 
 dependencies {
 
+    implementation("org.springframework:spring-messaging:6.2.11")
+    implementation("org.springframework:spring-websocket:6.2.11")
+    implementation("org.glassfish.tyrus.bundles:tyrus-standalone-client:2.1.5")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
     // Use JUnit Jupiter for testing.
     testImplementation libs.junit.jupiter
 
