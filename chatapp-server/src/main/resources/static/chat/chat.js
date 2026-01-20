@@ -48,6 +48,10 @@ stompClient.onConnect = (frame) => {
     stompClient.subscribe('/user/topic/to', (greeting) => {
         showGreeting(">>> /user/topic/to >>> "+JSON.parse(greeting.body).content);
     });
+
+    stompClient.subscribe('/user/'+USERID+'/call/check', (сallOutCheck) => {
+        showGreeting(">>> сallOutCheck >>> "+JSON.parse(сallOutCheck.body).content);
+    });
 };
 
 stompClient.onWebSocketError = (error) => {
@@ -99,6 +103,13 @@ function sendMessage(userId) {
     });
 }
 
+function funCallOutIn() {
+    stompClient.publish({
+        destination: "/chat/call/check",
+        body: JSON.stringify({'outUserID': USERID, 'inUserID':2})
+    });
+}
+
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
 }
@@ -108,6 +119,7 @@ $(function () {
     $( "#connect" ).click(() => connect());
     $( "#disconnect" ).click(() => disconnect());
     $( "#send" ).click(() => sendName());
+    $( "#callOutIn" ).click(() => funCallOutIn());
 
 
     $('#userto').change(function(){

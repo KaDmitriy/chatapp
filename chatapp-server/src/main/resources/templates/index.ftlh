@@ -7,7 +7,7 @@
 https://javarush.com/quests/lectures/questspring.level04.lecture44
 <p>Index User: ${username}</p>
 <p><a href="/chat">chat</a></p>
-<p><a href="/chatfirst">chatfirst</a></p>
+<p><a href="/chatfirst">chatfirst (old)</a></p>
 <p><a href="/info">info</a></p>
 </body>
 </html>
