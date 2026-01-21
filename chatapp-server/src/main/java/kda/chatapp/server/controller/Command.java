@@ -17,7 +17,7 @@ public class Command {
     public String test(){
         Greeting greeting = new Greeting("test command");
         messagingTemplate.convertAndSendToUser( "1", "/topic/to", greeting);
-        messagingTemplate.convertAndSendToUser( "1", "/topic/message", greeting);
+        //messagingTemplate.convertAndSendToUser( "1", "/topic/message", greeting);
 
         return "OK";
     }
