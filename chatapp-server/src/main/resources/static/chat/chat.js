@@ -58,7 +58,13 @@ stompClient.onConnect = (frame) => {
         showGreeting(">>>сallOutCheck >>> "+JSON.parse(сallOutCheck.body).callUserID);
     });
 
+    stompClient.subscribe('/user/topic/call/in', (сallOutCheck) => {
+        showGreeting(">>>сallOutCheck >>> "+JSON.parse(сallOutCheck.body).callUserID);
+    });
 
+    stompClient.subscribe('/topic/call/in', (сallOutCheck) => {
+        showGreeting(">>>сallOutCheck >>> "+JSON.parse(сallOutCheck.body).callUserID);
+    });
 
 };
 
