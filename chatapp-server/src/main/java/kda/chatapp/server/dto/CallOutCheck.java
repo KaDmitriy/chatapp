@@ -23,23 +23,11 @@ public class CallOutCheck {
         return outUserId;
     }
 
-    public void setOutUserId(Integer outUserId) {
-        this.outUserId = outUserId;
-    }
-
     public Integer getInUserId() {
         return inUserId;
     }
 
-    public void setInUserId(Integer inUserId) {
-        this.inUserId = inUserId;
-    }
-
     public Boolean getCheck() {
         return check;
-    }
-
-    public void setCheck(Boolean check) {
-        this.check = check;
     }
 }

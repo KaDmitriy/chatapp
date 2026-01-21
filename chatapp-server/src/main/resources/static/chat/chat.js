@@ -42,16 +42,24 @@ stompClient.onConnect = (frame) => {
     });
 
     stompClient.subscribe('/topic/to', (greeting) => {
-        showGreeting(">>> /topic/to >>> "+JSON.parse(greeting.body).content);
+        showGreeting(">>> !!! /topic/to >>> "+JSON.parse(greeting.body).content);
     });
 
     stompClient.subscribe('/user/topic/to', (greeting) => {
         showGreeting(">>> /user/topic/to >>> "+JSON.parse(greeting.body).content);
     });
 
-    stompClient.subscribe('/user/'+USERID+'/call/check', (сallOutCheck) => {
-        showGreeting(">>> сallOutCheck >>> "+JSON.parse(сallOutCheck.body).content);
+    //JOB
+    stompClient.subscribe('/user/topic/call/ischeck', (сallOutCheck) => {
+        showGreeting(">>>сallOutCheck >>> "+JSON.parse(сallOutCheck.body).check);
     });
+
+    stompClient.subscribe('/user/'+USERID+'/topic/call/in', (сallOutCheck) => {
+        showGreeting(">>>сallOutCheck >>> "+JSON.parse(сallOutCheck.body).callUserID);
+    });
+
+
+
 };
 
 stompClient.onWebSocketError = (error) => {
@@ -105,8 +113,8 @@ function sendMessage(userId) {
 
 function funCallOutIn() {
     stompClient.publish({
-        destination: "/chat/call/check",
-        body: JSON.stringify({'outUserID': USERID, 'inUserID':2})
+        destination: "/app/call/check",
+        body: JSON.stringify({'outUserID': USERID, 'inUserID':SELECTUSERIDCHAT})
     });
 }
 

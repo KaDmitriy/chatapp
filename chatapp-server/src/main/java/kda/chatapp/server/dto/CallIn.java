@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
  */
 public class CallIn {
 
-    private static final Logger log = LoggerFactory.getLogger(CallIn.class);
-
     private Integer callUserID;
 
     public CallIn() {
