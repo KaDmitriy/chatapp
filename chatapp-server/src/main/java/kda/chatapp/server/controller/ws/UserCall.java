@@ -26,9 +26,10 @@ public class UserCall {
      * @throws Exception
      */
     @MessageMapping("/call/check")
-    @SendToUser("/topic/call/ischeck")
+    @SendToUser(value = "/topic/call/ischeck", broadcast = false)
     public CallOutCheck greeting(CallOut callOut) throws Exception {
         log.info("call bell OutUserID:{} , InUserID:{}", callOut.getOutUserID(), callOut.getInUserID());
+        //messagingTemplate.setUserDestinationPrefix("/user2");
         messagingTemplate.convertAndSendToUser(Integer.toString(callOut.getInUserID()), "/topic/call/in", new CallIn(callOut.getOutUserID()));
         //messagingTemplate.convertAndSend("/topic/to", new CallIn(callOut.getOutUserID()));
         return new CallOutCheck(1, 2 ,true);

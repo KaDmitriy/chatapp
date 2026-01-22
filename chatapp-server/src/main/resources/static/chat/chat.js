@@ -51,19 +51,15 @@ stompClient.onConnect = (frame) => {
 
     //JOB
     stompClient.subscribe('/user/topic/call/ischeck', (сallOutCheck) => {
-        showGreeting(">>>сallOutCheck >>> "+JSON.parse(сallOutCheck.body).check);
+        showGreeting(">>>topic/call/ischeck >>> check:"+JSON.parse(сallOutCheck.body).check);
+    });
+
+    stompClient.subscribe('/topic/call/ischeck', (сallOutCheck) => {
+        showGreeting(">>>topic/call/check >>> check:"+JSON.parse(сallOutCheck.body).check);
     });
 
     stompClient.subscribe('/user/'+USERID+'/topic/call/in', (сallOutCheck) => {
-        showGreeting(">>>сallOutCheck >>> "+JSON.parse(сallOutCheck.body).callUserID);
-    });
-
-    stompClient.subscribe('/user/topic/call/in', (сallOutCheck) => {
-        showGreeting(">>>сallOutCheck >>> "+JSON.parse(сallOutCheck.body).callUserID);
-    });
-
-    stompClient.subscribe('/topic/call/in', (сallOutCheck) => {
-        showGreeting(">>>сallOutCheck >>> "+JSON.parse(сallOutCheck.body).callUserID);
+        showGreeting(">>>'/topic/call/in >>> callUserID:"+JSON.parse(сallOutCheck.body).callUserID);
     });
 
 };
