@@ -4,6 +4,7 @@
     <title>Test page</title>
     <link rel="stylesheet" href="/chat/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="/chat/jquery-3.1.1.min.js"></script>
+    <script src="/chat/jquery.cookie-1.4.1.min.js"></script>
     <script src="/chat/stomp.umd.min.js"></script>
     <script src="/chat/chat.js"></script>
     <script>
@@ -13,6 +14,7 @@
         var USERID=${USERID};
         var USERNAME="${USERNAME}";
         var SELECTUSERIDCHAT=0;
+        var COOCIESERVER="${COOCIESERVER}";
     </script>
 </head>
 <body>
@@ -24,6 +26,7 @@
 
 </div>
 <div id="main-content" class="container">
+    SessionID:<span id="sessionid"></span></br>
     I <b>${USERNAME}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     User To <select name="selectto" id="userto"></select>
     <div class="row">
@@ -48,6 +51,7 @@
 
         </div>
         <div><button id="callOutIn" type="submit">Call</button></div>
+        <div><button onclick="functionTest()" >Test</button></div>
     </div>
     <div class="row">
         <div class="col-md-12">

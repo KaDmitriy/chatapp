@@ -5,6 +5,7 @@ import kda.chatapp.server.service.UserServise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.security.Principal;
 
@@ -32,10 +33,11 @@ public class Page {
     }
 
     @GetMapping("/chat")
-    public String getChat(Model model, Principal principal) {
+    public String getChat(Model model, Principal principal, @CookieValue("JSESSIONID") String cookie) {
         User user = userServise.findByName(principal.getName());
         model.addAttribute("USERID", user.getId());
         model.addAttribute("USERNAME", user.getName());
+        model.addAttribute("COOCIESERVER", cookie);
         return "chat";
     }
 

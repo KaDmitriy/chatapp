@@ -148,6 +148,11 @@ $(function () {
             registrationChat(data);
         });
     });
+
+    //SessionID
+    //const sessionId = readCookie('JSESSIONID');
+    $("#sessionid").append(COOCIESERVER);
+
 });
 
 

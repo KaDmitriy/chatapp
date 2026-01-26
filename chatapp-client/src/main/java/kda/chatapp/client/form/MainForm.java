@@ -2,6 +2,7 @@ package kda.chatapp.client.form;
 
 import kda.chatapp.client.CallBack;
 import kda.chatapp.client.CallBackType;
+import kda.chatapp.client.ConnectHttp;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,9 @@ public class MainForm {
     private JTextArea text;
     private CallBack callBack;
     private JTextField sendText;
+
+    JTextField userText;
+    JTextField passText;
 
     public MainForm(CallBack callBack){
         this.callBack = callBack;
@@ -42,7 +46,7 @@ public class MainForm {
         // Create the main frame
         JFrame frame = new JFrame("My First Swing GUI");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(1100, 600);
 
 
         JButton buttonClear = new JButton("Clear");
@@ -50,10 +54,14 @@ public class MainForm {
         JPanel panelSouth = new JPanel();
         panelSouth.add(buttonClear);
 
+
+
         // Add the panel to the frame
         frame.getContentPane().add(BorderLayout.NORTH, panel);
         frame.getContentPane().add(BorderLayout.CENTER, panel2);
         frame.getContentPane().add(BorderLayout.SOUTH, panelSouth);
+        frame.getContentPane().add(BorderLayout.WEST, panelUser());
+
 
         // Make the frame visible
         frame.setVisible(true);
@@ -73,6 +81,42 @@ public class MainForm {
         String textStr = sendText.getText();
         if(callBack!=null) callBack.actionSend(textStr);
         text.append("< "+textStr+" \n");
+    }
+
+    private JPanel panelUser(){
+        JLabel label = new JLabel("Settings user");
+
+        userText = new JTextField(10);
+        passText = new JTextField(10);
+        JLabel labelUser = new JLabel("User");
+        JLabel labelPass = new JLabel("Pass");
+        JButton buttonConnect = new JButton("Connect");
+        buttonConnect.addActionListener(e -> connectServer());
+        JPanel panelUser = new JPanel();
+        panelUser.setLayout(new FlowLayout());
+        panelUser.add(labelUser);
+        panelUser.add(userText);
+        panelUser.add(labelPass);
+        panelUser.add(passText);
+
+        JButton buttonCall = new JButton("Call");
+
+        JPanel panelSettings = new JPanel();
+        BoxLayout boxLayout = new BoxLayout(panelSettings, BoxLayout.Y_AXIS);
+        panelSettings.setLayout( boxLayout);
+        panelSettings.add(label);
+        panelSettings.add(panelUser);
+        panelSettings.add(buttonConnect);
+        panelSettings.add(buttonCall);
+
+        return panelSettings;
+
+    }
+
+    private void connectServer(){
+        System.out.println("Connecting to server...");
+        ConnectHttp connectHttp = new ConnectHttp();
+        connectHttp.connect(userText.getText(), passText.getText());
     }
 
     public void incoming(String textStr){
