@@ -5,6 +5,7 @@ import kda.chatapp.client.CallBackType;
 import kda.chatapp.client.ConnectHttp;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class MainForm {
@@ -90,19 +91,23 @@ public class MainForm {
         passText = new JTextField(10);
         JLabel labelUser = new JLabel("User");
         JLabel labelPass = new JLabel("Pass");
-        JButton buttonConnect = new JButton("Connect");
-        buttonConnect.addActionListener(e -> connectServer());
         JPanel panelUser = new JPanel();
         panelUser.setLayout(new FlowLayout());
         panelUser.add(labelUser);
         panelUser.add(userText);
         panelUser.add(labelPass);
         panelUser.add(passText);
+        Border titledBorder = BorderFactory.createTitledBorder("Login");
+        panelUser.setBorder(titledBorder);
+        //panelUser.setPreferredSize(new Dimension(400, 100));
 
+        JButton buttonConnect = new JButton("Connect");
+        buttonConnect.addActionListener(e -> connectServer());
         JButton buttonCall = new JButton("Call");
 
         JPanel panelSettings = new JPanel();
         BoxLayout boxLayout = new BoxLayout(panelSettings, BoxLayout.Y_AXIS);
+        buttonConnect.setAlignmentX(Component.LEFT_ALIGNMENT);
         panelSettings.setLayout( boxLayout);
         panelSettings.add(label);
         panelSettings.add(panelUser);
