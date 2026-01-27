@@ -1,8 +1,10 @@
 package kda.chatapp.server.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
+import kda.chatapp.server.dto.UserInfo;
 import kda.chatapp.server.model.ChatModel;
 import kda.chatapp.server.service.UserServise;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,12 @@ public class ControllerUser {
 			cm.setToUSer(userServise.findById(toUserID));
 		}
 		return cm;
+	}
+
+	@GetMapping("/user/info")
+	public UserInfo getUserInfo(Principal principal) {
+		User curentUser = userServise.findByName(principal.getName());
+		return new UserInfo(curentUser.getId(), curentUser.getName());
 	}
 
 }

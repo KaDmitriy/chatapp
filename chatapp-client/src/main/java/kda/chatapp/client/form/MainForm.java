@@ -3,6 +3,8 @@ package kda.chatapp.client.form;
 import kda.chatapp.client.CallBack;
 import kda.chatapp.client.CallBackType;
 import kda.chatapp.client.ConnectHttp;
+import kda.chatapp.client.service.CallService;
+import kda.chatapp.client.ws.WS;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,8 +19,16 @@ public class MainForm {
     JTextField userText;
     JTextField passText;
 
-    public MainForm(CallBack callBack){
+    ConnectHttp connectHttp;
+    WS ws;
+    CallService callService;
+
+    public MainForm(CallBack callBack, ConnectHttp connectHttp, WS ws, CallService callService){
+        this.connectHttp =  connectHttp;
         this.callBack = callBack;
+        this.callService = callService;
+        callService.setMainForm(this);
+        this.ws = ws;
         sendText = new JTextField(10);
         sendText.setColumns(40);
 
@@ -120,12 +130,21 @@ public class MainForm {
 
     private void connectServer(){
         System.out.println("Connecting to server...");
-        ConnectHttp connectHttp = new ConnectHttp();
+        //ConnectHttp connectHttp = new ConnectHttp();
         connectHttp.connect(userText.getText(), passText.getText());
+        if(connectHttp.getConnected()){
+            incoming("Connect > user:" + connectHttp.getUsername() );
+            incoming("HTTP SessionID:" + connectHttp.getSessionID() );
+            incoming("User> id:" + connectHttp.getUserInfo().getId() + ", name:" + connectHttp.getUserInfo().getName() );
+            ws.start();
+        } else {
+            incoming("Connect error" );
+        }
     }
 
     public void incoming(String textStr){
         text.append("> "+textStr+" \n");
     }
+
 
 }

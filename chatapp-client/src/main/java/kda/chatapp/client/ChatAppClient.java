@@ -1,6 +1,8 @@
 package kda.chatapp.client;
 
 import kda.chatapp.client.form.MainForm;
+import kda.chatapp.client.service.CallService;
+import kda.chatapp.client.ws.WS;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.web.socket.WebSocketHttpHeaders;
@@ -8,8 +10,6 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -38,8 +38,12 @@ public class ChatAppClient {
 
         //new Scanner(System.in).nextLine(); // Don't close immediately.
 
+        CallService callService = new CallService();
+
         CallBack callBack = new CallBack();
-        MainForm mainForm = new MainForm(callBack);
+        ConnectHttp connectHttp = new ConnectHttp();
+        WS ws = new WS(connectHttp, callService);
+        MainForm mainForm = new MainForm(callBack, connectHttp, ws, callService);
         mainForm.incoming("OK");
 	}
 

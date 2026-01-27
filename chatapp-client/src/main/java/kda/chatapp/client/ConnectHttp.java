@@ -1,5 +1,9 @@
 package kda.chatapp.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import kda.chatapp.client.dto.UserInfo;
+
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
@@ -18,8 +22,10 @@ public class ConnectHttp {
     String password;
 
     private Integer statusCode;
-    private String sessionID;
+    private String httpSessionID;
+    private UserInfo userInfo;
 
+    private Boolean isConnected = false;
 
     public void connect(String userName, String password) {
 
@@ -36,15 +42,21 @@ public class ConnectHttp {
             System.out.println("statusCode: "+statusCode);
 
             HttpHeaders headers = response.headers();
+            String location = headers.allValues("Location").get(0);
+            if(location.indexOf("error")>0){
+                isConnected = false;
+                return;
+            }
             Optional<String> cookie = headers.firstValue("set-cookie");
-            sessionID = parseCookie( cookie.get() );
+            httpSessionID = parseCookie( cookie.get() );
+            this.username = userName;
+            isConnected = true;
+            userInfo = getUserInfoConnect(client);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     public String generateBasicAuthToken(String username, String password) {
@@ -65,6 +77,31 @@ public class ConnectHttp {
                 .split("=")[1];
     }
 
+    public UserInfo getUserInfoConnect(HttpClient client) {
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/user/info"))
+                .header("Cookie", String.format("JSESSIONID=%s", httpSessionID))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        UserInfo userInfo = null;
+        try {
+            userInfo = objectMapper.readValue(response.body(), UserInfo.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return userInfo;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -78,6 +115,14 @@ public class ConnectHttp {
     }
 
     public String getSessionID() {
-        return sessionID;
+        return httpSessionID;
+    }
+
+    public Boolean getConnected() {
+        return isConnected;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 }
