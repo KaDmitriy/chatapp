@@ -1,8 +1,6 @@
 package kda.chatapp.server.controller.ws;
 
-import kda.chatapp.server.dto.CallIn;
-import kda.chatapp.server.dto.CallOut;
-import kda.chatapp.server.dto.CallOutCheck;
+import kda.chatapp.server.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +19,24 @@ public class UserCall {
 
     /**
      * Процедура вызова
-     * @param callOut
+     * @param
      * @return
      * @throws Exception
      */
-    @MessageMapping("/call/check")
-    @SendToUser(value = "/topic/call/ischeck", broadcast = false)
-    public CallOutCheck greeting(CallOut callOut) throws Exception {
-        log.info("call bell OutUserID:{} , InUserID:{}", callOut.getOutUserID(), callOut.getInUserID());
+    @MessageMapping("/call/from")
+    public void callFrom(CallFrom callFrom) throws Exception {
+        log.info("call bell fromUserID:{} , toUserID:{}", callFrom.getUserFromId(), callFrom.getUserToId());
         //messagingTemplate.setUserDestinationPrefix("/user2");
-        messagingTemplate.convertAndSendToUser(Integer.toString(callOut.getInUserID()), "/topic/call/in", new CallIn(callOut.getOutUserID()));
+        messagingTemplate.convertAndSendToUser(Integer.toString(callFrom.getUserToId()), "/call/to", new CallTo(callFrom.getUserFromId(), callFrom.getUserToId()));
         //messagingTemplate.convertAndSend("/topic/to", new CallIn(callOut.getOutUserID()));
-        return new CallOutCheck(1, 2 ,true);
+    }
+
+    @MessageMapping("/call/tocheck")
+    public void callToCheck(CallToCheck callOut) throws Exception {
+        //log.info("call bell OutUserID:{} , InUserID:{}", callOut.getOutUserID(), callOut.getInUserID());
+        //messagingTemplate.setUserDestinationPrefix("/user2");
+        //messagingTemplate.convertAndSendToUser(Integer.toString(callOut.getInUserID()), "/topic/call/confirm", new CallIn(callOut.getOutUserID()));
+        //messagingTemplate.convertAndSend("/topic/to", new CallIn(callOut.getOutUserID()));
     }
 
 }

@@ -1,7 +1,7 @@
 package kda.chatapp.client.ws;
 
 import kda.chatapp.client.ConnectHttp;
-import kda.chatapp.client.dto.CallIn;
+import kda.chatapp.client.dto.CallTo;
 import kda.chatapp.client.service.CallService;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaders;
@@ -21,7 +21,7 @@ public class SubChannelCallHandler  implements StompSessionHandler {
     public SubChannelCallHandler(ConnectHttp connectHttp, CallService callService) {
         this.connectHttp = connectHttp;
         this.callService = callService;
-        subUrl = "/user/"+connectHttp.getUserInfo().getId()+"/topic/call/in";
+        subUrl = "/user/"+connectHttp.getUserInfo().getId()+"/call/to";
     }
 
     @Override
@@ -46,15 +46,15 @@ public class SubChannelCallHandler  implements StompSessionHandler {
     @Override
     public Type getPayloadType(StompHeaders headers) {
         System.out.println("getPayloadType");
-        return CallIn.class;
+        return CallTo.class;
     }
 
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
         //String msg = new String((byte[]) payload, StandardCharsets.UTF_8);
-        CallIn callIn = (CallIn) payload;
-        callService.callIn(callIn);
-        System.out.println("handleFrame msg:"+callIn.getCallUserID());
+        CallTo callTo = (CallTo) payload;
+        callService.callIn(callTo);
+        System.out.println("handleFrame UserFromId:"+callTo.getUserFromId());
     }
 
     public String getSubUrl() {

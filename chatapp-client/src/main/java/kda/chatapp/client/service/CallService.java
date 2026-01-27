@@ -1,6 +1,6 @@
 package kda.chatapp.client.service;
 
-import kda.chatapp.client.dto.CallIn;
+import kda.chatapp.client.dto.CallTo;
 import kda.chatapp.client.form.MainForm;
 
 public class CallService {
@@ -11,8 +11,8 @@ public class CallService {
         this.mainForm = mainForm;
     }
 
-    public void callIn(CallIn callIn) {
-        mainForm.incoming("call userID:"+callIn.getCallUserID());
+    public void callIn(CallTo callTo) {
+        mainForm.incoming("call UserFromId:"+callTo.getUserFromId());
     }
 
 }

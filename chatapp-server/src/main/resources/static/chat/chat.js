@@ -115,8 +115,8 @@ function sendMessage(userId) {
 
 function funCallOutIn() {
     stompClient.publish({
-        destination: "/app/call/check",
-        body: JSON.stringify({'outUserID': USERID, 'inUserID':SELECTUSERIDCHAT})
+        destination: "/app/call/from",
+        body: JSON.stringify({'userFromId': USERID, 'userToId':SELECTUSERIDCHAT})
     });
 }
 
