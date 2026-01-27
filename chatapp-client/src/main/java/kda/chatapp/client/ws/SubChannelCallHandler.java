@@ -13,18 +13,20 @@ import java.nio.charset.StandardCharsets;
 
 public class SubChannelCallHandler  implements StompSessionHandler {
 
-
     private ConnectHttp connectHttp;
     private CallService callService;
+    private String subUrl;
+
 
     public SubChannelCallHandler(ConnectHttp connectHttp, CallService callService) {
         this.connectHttp = connectHttp;
         this.callService = callService;
+        subUrl = "/user/"+connectHttp.getUserInfo().getId()+"/topic/call/in";
     }
 
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-        session.subscribe("/user/"+connectHttp.getUserInfo().getId()+"/topic/call/in", this);
+        session.subscribe(subUrl, this);
         //session.send("/app/chat", getSampleMessage());
         System.out.println("afterConnected");
     }
@@ -53,5 +55,9 @@ public class SubChannelCallHandler  implements StompSessionHandler {
         CallIn callIn = (CallIn) payload;
         callService.callIn(callIn);
         System.out.println("handleFrame msg:"+callIn.getCallUserID());
+    }
+
+    public String getSubUrl() {
+        return subUrl;
     }
 }

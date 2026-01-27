@@ -4,7 +4,6 @@
     <title>Test page</title>
     <link rel="stylesheet" href="/chat/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="/chat/jquery-3.1.1.min.js"></script>
-    <script src="/chat/jquery.cookie-1.4.1.min.js"></script>
     <script src="/chat/stomp.umd.min.js"></script>
     <script src="/chat/chat.js"></script>
     <script>
