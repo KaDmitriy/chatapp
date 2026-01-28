@@ -20,42 +20,12 @@ import java.util.Base64;
 public class ChatAppClient {
 
 	public static void main(String[] args)  {
-
-        WebSocketClient client = new StandardWebSocketClient();
-
-        WebSocketStompClient stompClient = new WebSocketStompClient(client);
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-
-        WebSocketHttpHeaders handshakeHeaders = new WebSocketHttpHeaders();
-        String user = "user1", pass = "1";
-        handshakeHeaders.add("Authorization", generateBasicAuthToken(user, pass));
-
-        StompSessionHandler sessionHandler = new MyStompSessionHandler();
-
-        String urlStr = "ws://localhost:8080/gs-guide-websocket";
-        //URI url = new URI(urlStr);
-        stompClient.connectAsync(urlStr, handshakeHeaders, sessionHandler);
-
-        //new Scanner(System.in).nextLine(); // Don't close immediately.
-
         CallService callService = new CallService();
-
         CallBack callBack = new CallBack();
         ConnectHttp connectHttp = new ConnectHttp();
         WS ws = new WS(connectHttp, callService);
         MainForm mainForm = new MainForm(callBack, connectHttp, ws, callService);
         mainForm.incoming("OK");
 	}
-
-    public static String generateBasicAuthToken(String username, String password) {
-        // Concatenate username and password with a colon
-        String credentials = username + ":" + password;
-
-        // Encode the credentials in Base64
-        String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
-
-        // Prefix with "Basic " to form the Authorization header value
-        return "Basic " + encodedCredentials;
-    }
 
 }

@@ -3,6 +3,8 @@ package kda.chatapp.client.form;
 import kda.chatapp.client.CallBack;
 import kda.chatapp.client.CallBackType;
 import kda.chatapp.client.ConnectHttp;
+import kda.chatapp.client.dto.CallTo;
+import kda.chatapp.client.dto.CallToCheck;
 import kda.chatapp.client.service.CallService;
 import kda.chatapp.client.ws.WS;
 
@@ -18,6 +20,7 @@ public class MainForm {
 
     JTextField userText;
     JTextField passText;
+    JCheckBox checkBoxConfirm;
 
     ConnectHttp connectHttp;
     WS ws;
@@ -111,9 +114,21 @@ public class MainForm {
         panelUser.setBorder(titledBorder);
         //panelUser.setPreferredSize(new Dimension(400, 100));
 
+        //CALL
+        JPanel panelCall = new JPanel();
+        panelCall.setLayout(new FlowLayout());
+        JButton buttonCall = new JButton("Call");
+        buttonCall.addActionListener(e -> callTo());
+        JButton buttonConfirm = new JButton("Confirm");
+        buttonConfirm.addActionListener(e -> callConfirm());
+        checkBoxConfirm = new JCheckBox("Confirm");
+        panelCall.add(buttonCall);
+        panelCall.add(buttonConfirm);
+        panelCall.add(checkBoxConfirm);
+
         JButton buttonConnect = new JButton("Connect");
         buttonConnect.addActionListener(e -> connectServer());
-        JButton buttonCall = new JButton("Call");
+
 
         JPanel panelSettings = new JPanel();
         BoxLayout boxLayout = new BoxLayout(panelSettings, BoxLayout.Y_AXIS);
@@ -122,7 +137,7 @@ public class MainForm {
         panelSettings.add(label);
         panelSettings.add(panelUser);
         panelSettings.add(buttonConnect);
-        panelSettings.add(buttonCall);
+        panelSettings.add(panelCall);
 
         return panelSettings;
 
@@ -146,5 +161,13 @@ public class MainForm {
         text.append("> "+textStr+" \n");
     }
 
+    public void callTo() {
+        System.out.println("Calling to...");
+    }
 
+    public void callConfirm() {
+        Boolean val = checkBoxConfirm.isSelected();
+        System.out.println("callConfirm > select:"+val);
+        callService.callToCheck(new CallToCheck(callService.getLastCallUserId(), connectHttp.getUserInfo().getId(), val));
+    }
 }

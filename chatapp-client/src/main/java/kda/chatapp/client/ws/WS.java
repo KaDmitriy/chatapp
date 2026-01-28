@@ -19,9 +19,12 @@ public class WS {
     ConnectHttp connectHttp;
     CallService callService;
 
+    private org.springframework.messaging.simp.stomp.StompSession sessionWS;
+
     public WS(ConnectHttp connectHttp, CallService callService) {
         this.connectHttp = connectHttp;
         this.callService = callService;
+        callService.setWS(this);
     }
 
     public void start(){
@@ -36,7 +39,6 @@ public class WS {
         WebSocketStompClient stompClient = new WebSocketStompClient(client);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
-        org.springframework.messaging.simp.stomp.StompSession sessionWS = null;
         try {
             CompletableFuture<StompSession> stompSessionCompletableFuture = stompClient.connectAsync(urlStr, handshakeHeaders,  new StompSessionHandlerAdapter() {});
             sessionWS = stompSessionCompletableFuture.get();
@@ -44,12 +46,17 @@ public class WS {
             SubChannelCallHandler subChannelCallHandler = new SubChannelCallHandler(connectHttp, callService);
             sessionWS.subscribe(subChannelCallHandler.getSubUrl(), subChannelCallHandler);
 
+
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public void sendMessage(PushChannel pushChannel){
+        sessionWS.send(pushChannel.getUrl(), pushChannel.getModel());
     }
 
 }

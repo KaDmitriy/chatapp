@@ -54,13 +54,14 @@ stompClient.onConnect = (frame) => {
         showGreeting(">>>topic/call/ischeck >>> check:"+JSON.parse(сallOutCheck.body).check);
     });
 
-    stompClient.subscribe('/topic/call/ischeck', (сallOutCheck) => {
-        showGreeting(">>>topic/call/check >>> check:"+JSON.parse(сallOutCheck.body).check);
-    });
-
     stompClient.subscribe('/user/'+USERID+'/topic/call/in', (сallOutCheck) => {
         showGreeting(">>>'/topic/call/in >>> callUserID:"+JSON.parse(сallOutCheck.body).callUserID);
     });
+
+    stompClient.subscribe('/user/'+USERID+'/call/confirm', (callToCheck) => {
+        showGreeting(">>>'/call/confirm >>> check:"+JSON.parse(callToCheck.body).check);
+    });
+
 
 };
 

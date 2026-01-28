@@ -32,8 +32,9 @@ public class UserCall {
     }
 
     @MessageMapping("/call/tocheck")
-    public void callToCheck(CallToCheck callOut) throws Exception {
-        //log.info("call bell OutUserID:{} , InUserID:{}", callOut.getOutUserID(), callOut.getInUserID());
+    public void callToCheck(CallToCheck callToCheck) throws Exception {
+        log.info("CallToCheck > getUserFromId:{}, getUserToId:{}, getCheck:{}", callToCheck.getUserFromId(), callToCheck.getUserToId(), callToCheck.getCheck());
+        messagingTemplate.convertAndSendToUser(Integer.toString(callToCheck.getUserFromId()), "/call/confirm", callToCheck);
         //messagingTemplate.setUserDestinationPrefix("/user2");
         //messagingTemplate.convertAndSendToUser(Integer.toString(callOut.getInUserID()), "/topic/call/confirm", new CallIn(callOut.getOutUserID()));
         //messagingTemplate.convertAndSend("/topic/to", new CallIn(callOut.getOutUserID()));
